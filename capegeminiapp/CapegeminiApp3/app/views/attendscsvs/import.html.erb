@@ -1,0 +1,74 @@
+<%
+require 'CSV'
+
+f = @f
+fName = File.basename(f.original_filename,".csv")
+
+failed_students = []
+
+row_hash = ""
+
+if Course.where(:module_id => fName).blank?
+	%><p>There is no course named <%= fName %>, please add one or upload the correct file.</p><%
+else
+
+	headers = CSV.open(f.path).first
+	headers.shift(3)
+	
+	headers.each do |date|
+		session = Session.new(module_id: fName, date: date)
+		if Session.where(module_id: session.module_id, date: session.date).empty?
+			session.save
+		end
+	end
+	
+	CSV.foreach(f.path, headers: true) do |row|
+
+		row_hash = {}
+	  	row.to_hash.each_pair do |k,v|
+	   		row_hash.merge!({k.downcase => v}) 
+	  	end
+
+		student = Student.new(row_hash.slice("student_id", "surname", "firstname"))
+
+
+		if Student.where(:student_id => student.student_id).blank?
+			failed_students.push("#{student.surname}, #{student.firstname}")
+		end
+
+
+
+		headers.each do |date|
+
+			session = Session.select(:id).where(:date => Date.parse(date), :module_id => fName).first
+
+			if row_hash[date] == "1"
+				if Attend.where(student_id: student.student_id, session_id: session.id).empty?
+					
+					attend = Attend.create(student_id: student.student_id, session_id: session.id)
+	
+				end
+			else
+				Attend.where(student_id: student.student_id, session_id: session.id).destroy_all
+			end
+		end
+	end
+end
+
+%>
+
+<%= "Attendance added" %>
+
+<% 
+
+if !failed_students.blank?
+	%>
+	<p> The following students could not be added: </p>
+	<table>
+	<%
+	failed_students.each do |student| %>
+		<tr><td><%= student %></td></tr>
+	<% end %>
+	</table><%
+end
+%>

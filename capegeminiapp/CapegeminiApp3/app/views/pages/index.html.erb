@@ -1,0 +1,20 @@
+<h3>Attendance</h3>
+
+<%= form_tag({:controller => 'pages', :action => 'index'}, :method => 'get', :remote => false) do %>
+ <table align="center">
+    <tr>
+      <th>Module</th>
+    </tr>
+     <tr>
+    <td><%= collection_select :module, :id, Course.all, :id,:module_name %></td>
+   </tr>
+   </table>
+  <%= submit_tag "View Students" %>
+<% end %>
+
+
+
+
+<h3><%= @module_id %></h3>
+<%= column_chart @attends.group('sessions.date').count, library: {backgroundColor: "#FFF", width: '50%'} %>
+

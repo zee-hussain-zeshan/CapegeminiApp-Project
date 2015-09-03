@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<!--SHOW STUDENTS BY MODULE FORM -->
+<%= form_tag("showStudentsByModule") do %>
+ <table align="center">
+    <tr>
+      <th>Module</th>
+    </tr>
+     <tr>
+    <td><%= collection_select :module, :id, Course.all, :id,:module_name %></td>
+   </tr>
+   </table>
+  <%= submit_tag "View Students" %>
+<% end %>
+
+
+
+<h3><%= link_to 'View Student By Module', {:controller => 'pages', :action => 'chooseModule'} %></h3>
+
+
+
+
+

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Module:</strong>
+  <%= @assessment.module_id %>
+</p>
+
+<p>
+  <strong>Assessment name:</strong>
+  <%= @assessment.assessment_name %>
+</p>
+
+<p>
+  <strong>Max points:</strong>
+  <%= @assessment.max_points %>
+</p>
+
+<%= link_to 'Edit', edit_assessment_path(@assessment) %> |
+<%= link_to 'Back', assessments_path %>
