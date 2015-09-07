@@ -36,14 +36,12 @@ class PagesController < ApplicationController
 	end
 
 	def attendance
-		#@module_idParam
-		#begin
-		#	@module_idParam = params[:module][:id]
-		#rescue
-		#	@module_idParam = Course.first[:id]
-		#end
-		#@module = Course.find(@module_idParam)
-		@module_idParam = params[:session_id]
+		@module_idParam
+		begin
+			@module_idParam = params[:id]
+		rescue
+			@module_idParam = Course.first[:id]
+		end
 		@session = Session.where(id: @module_idParam)
 	end
 
