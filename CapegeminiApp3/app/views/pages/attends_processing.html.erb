@@ -1,0 +1,23 @@
+<%
+id = Session.find(@session)
+Enrolment.where(module_id: id.module_id ).each do |enrolment|
+	attend = Attend.where(student_id: enrolment.student_id, session_id: @session)
+	
+	if !@students.blank?
+		if @students.include?enrolment.student_id
+			if attend.blank?
+				Attend.create(student_id: enrolment.student_id, session_id: @session)
+			end
+		else
+			attend.destroy_all
+		end
+	else
+		attend.destroy_all %>
+	<% end %>
+<% end %>
+<p class="message"> Attendace Successfully updated. </p>
+
+
+
+ <a href="../sessions"><button type="button">Back</button></a>
+  	

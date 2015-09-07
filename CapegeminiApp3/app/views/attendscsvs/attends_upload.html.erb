@@ -1,0 +1,11 @@
+<h1>Attendance Upload</h1>
+
+Upload a file
+<br/><br/>
+<div align="center">
+<%= form_tag import_attendscsvs_path , multipart: true do %>
+	<%= file_field_tag :file %>
+	<br/>
+	<%= submit_tag("Process") %>
+<% end %>
+</div>

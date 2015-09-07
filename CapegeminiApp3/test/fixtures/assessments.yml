@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  module_id: MyString
+  assessment_name: MyString
+  max_points: 
+
+two:
+  module_id: MyString
+  assessment_name: MyString
+  max_points: 

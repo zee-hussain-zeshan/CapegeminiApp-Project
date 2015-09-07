@@ -1,0 +1,12 @@
+What is the module code to this module?
+
+<%
+cookies[:enrolments_cookie] = @f
+fName = File.basename(@f.original_filename,".csv")
+
+%>
+
+<%= form_tag import2_enrolmentcsvs_path , multipart: true do %>
+	<%= text_field_tag :course_id, fName %>
+	<%= submit_tag("Submit") %>
+<% end %>

@@ -1,0 +1,29 @@
+<%= form_for(@assessment) do |f| %>
+  <% if @assessment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assessment.errors.count, "error") %> prohibited this assessment from being saved:</h2>
+
+      <ul>
+      <% @assessment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :module_id %><br>
+    <%= f.text_field :module_id %>
+  </div>
+  <div class="field">
+    <%= f.label :assessment_name %><br>
+    <%= f.text_field :assessment_name %>
+  </div>
+  <div class="field">
+    <%= f.label :max_points %><br>
+    <%= f.text_field :max_points %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

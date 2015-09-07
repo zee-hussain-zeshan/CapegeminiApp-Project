@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<title>Websystem</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+
+   <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+  <%= stylesheet_link_tag 'http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css' %>
+  <%= javascript_include_tag 'http://yandex.st/bootstrap/3.1.1/js/bootstrap.min.js' %>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Web Learning System</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active"><%= link_to 'Home', {:controller => 'pages', :action => 'index'} %></li>
+         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Uploads via CSV<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Enrolments', {:controller => 'enrolmentcsvs', :action => 'enrolments_upload'} %></li>
+            <li><%= link_to 'Attendance', {:controller => 'attendscsvs', :action => 'attends_upload'} %> </li>
+            <li><a href="#"></a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Students<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseModule'} %></li>
+            <li><%= link_to 'List all', {:controller => 'students', :action => 'index'} %> </li>
+            <li><a href="#"></a></li>
+          </ul>
+        </li>
+         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Sessions<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseSession'} %></li>
+            <li><%= link_to 'List all', {:controller => 'sessions', :action => 'index'} %> </li>
+            <li><a href="#"></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+  
+</div>
+
+	<main>
+		<%= yield %>
+	</main>
+</body>
+</html>

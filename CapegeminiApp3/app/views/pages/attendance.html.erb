@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+<!--<h3>SESSIONS FOR <u><= @module.module_name %></u></h3>-->
+ <% 
+	t = @session.first 
+	
+	presentStudents = Attend.where(session_id: t.id)
+	enrolledStudents = Enrolment.where(module_id: t.module_id)
+%>
+
+ <h2> Register Attendances </h2>
+		<%= form_tag("attends_processing") do %>
+		  <table align="center">
+		    <tr>
+		      <th>Surname</th><th>Firstname</th><th>Present?</th>
+		    </tr>
+		    <%= hidden_field_tag(name = "session", value = t.id) %>
+		    
+		    <% enrolledStudents.each do |entry| %>
+		    <tr>
+		      <td><%= entry.student.firstname %></td><td><%= entry.student.surname %></td>
+		      
+		      <% present = false %>
+		      <% presentStudents.each do |search| %>
+		      	<% if search.student_id == entry.student_id && search.session_id == t.id %>
+		      		<% present = true %>
+		      	<% end %>
+		      <% end %>
+		      
+		      <% if present == true %>
+		      	<td><%= check_box_tag(name = "students[]", value = entry.student_id, checked = true) %></td>
+		      <% else %>
+		      	<td><%= check_box_tag(name = "students[]", value = entry.student_id, checked = false) %></td>
+		      <% end %>
+		    </tr>
+		    <% end %>
+		    
+		  </table>
+		  <%= submit_tag "Submit" %>
+		  <a href="../sessions"><button type="button">Back</button></a>
+		<% end %>
+		
+
+
+
+ 

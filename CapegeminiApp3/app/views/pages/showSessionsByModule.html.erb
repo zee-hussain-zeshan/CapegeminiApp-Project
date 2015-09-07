@@ -1,0 +1,37 @@
+<!--STUDENTS SHOWING BY MODULE -->
+
+<p id="notice"><%= notice %></p>
+
+<%= form_tag({:controller => 'pages', :action => 'showSessionsByModule'}, :method => 'get', :remote => false) do %>
+ <table align="center">
+    <tr>
+      <th>Module</th>
+    </tr>
+     <tr>
+    <td><%= collection_select :module, :id, Course.all, :id,:module_name %></td>
+   </tr>
+   </table>
+  <%= submit_tag "View Students" %>
+<% end %>
+
+<h3><u><%= @module.module_name%></u> sessions</h3>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Module</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  	 <% @sessions.each do |entry| %>
+       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+        <td><%= entry.date %></td>
+        <td><%= link_to 'Update', :action => "attendance", :session_id => entry.id  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!--<= link_to 'Create Session', {:controller => 'sessions', :action => 'new'} %>
+<= link_to 'View Sessions', {:controller => 'pages', :action => 'sessions', :module => @moduleParam} %> -->

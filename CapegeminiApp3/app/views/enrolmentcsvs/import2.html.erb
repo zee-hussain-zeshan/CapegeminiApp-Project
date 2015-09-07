@@ -1,0 +1,37 @@
+<%=  %>
+
+<%
+require 'CSV'
+
+f  = cookies[:enrolments_cookie]
+fName = File.basename(f.original_filename,".csv")
+
+#if Course.where(:module_id => fName).blank?
+#	Course.create(:module_id => fName, :module_name => fName)
+#end
+#
+#id_pos = CSV.read(f.path)[0].index("Student_ID")
+#
+#CSV.foreach(f.path, headers: true) do |row|
+#
+#	new_hash = {}
+#  		row.to_hash.each_pair do |k,v|
+#   		new_hash.merge!({k.downcase => v}) 
+#  	end
+#	student = Student.new new_hash
+#
+#	if Student.where(:student_id => student.student_id).blank?
+#		student.save
+#	end
+#
+#
+#	if Enrolment.where(:student_id => row[id_pos], :module_id => fName).blank?
+#		Enrolment.create(:student_id => row[id_pos], :module_id => fName)
+#	end
+#
+#end
+#
+%>
+
+<%= "Students added" %>
+
