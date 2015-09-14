@@ -4,12 +4,15 @@ class EnrolmentcsvsController < ApplicationController
 	end
 
 	def import1
-		@f = params[:file]
-		cookies[:enrolments_cookie] = @f.path
+		@name =  "ChangeThisName.csv"
+    	directory = "#{Rails.root}/public/data"
+    	@path = File.join(directory, @name)
+    	# write the file
+    	File.open(@path, "wb") { |f| f.write(params[:file].read) }
 	end
 
 	def import2
-		@id = params[:course_id]
-		@f  = File.read(cookies[:enrolments_cookie])
+		@course_id = params[:course_id]
+		@file_path = params[:file_path]
 	end
 end

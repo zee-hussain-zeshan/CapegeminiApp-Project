@@ -1,37 +1,67 @@
 <%=  %>
 
 <%
+
+@students = []
+@added_students = 0
+@failed_students = []
+@enrolments = []
+@added_enrolments = 0
+
 require 'CSV'
 
-f  = cookies[:enrolments_cookie]
-fName = File.basename(f.original_filename,".csv")
+f = File.open(@file_path)
+@course = Course.where(:module_id => @course_id).first
+if @course.blank?
+	Course.create(:module_id => @course_id, :module_name => @course_id)
+	%><%= "A module with module code #{@course_id} and name #{course_id} was created, you can change this name later if you wish"  %><%
+else
+	%><%= "The following changes were made to #{@course.module_name} with id #{@course_id}:" %><%
+end
 
-#if Course.where(:module_id => fName).blank?
-#	Course.create(:module_id => fName, :module_name => fName)
-#end
-#
-#id_pos = CSV.read(f.path)[0].index("Student_ID")
-#
-#CSV.foreach(f.path, headers: true) do |row|
-#
-#	new_hash = {}
-#  		row.to_hash.each_pair do |k,v|
-#   		new_hash.merge!({k.downcase => v}) 
-#  	end
-#	student = Student.new new_hash
-#
-#	if Student.where(:student_id => student.student_id).blank?
-#		student.save
-#	end
-#
-#
-#	if Enrolment.where(:student_id => row[id_pos], :module_id => fName).blank?
-#		Enrolment.create(:student_id => row[id_pos], :module_id => fName)
-#	end
-#
-#end
-#
+
+
+id_pos = CSV.read(f.path)[0].index("Student_ID")
+
+CSV.foreach(f.path, headers: true) do |row|
+
+	new_hash = {}
+  		row.to_hash.each_pair do |k,v|
+   		new_hash.merge!({k.downcase => v}) 
+  	end
+	student = Student.new new_hash
+
+	if Student.where(:student_id => student.student_id).blank?
+		@students.push(student)
+		student.save
+	else
+		@failed_students.push(student)
+	end
+
+
+	if Enrolment.where(:student_id => row[id_pos], :module_id => @course_id).blank?
+		Enrolment.create(:student_id => row[id_pos], :module_id => @course_id)
+	end
+
+end
+
 %>
-
-<%= "Students added" %>
-
+<ul>
+	<% if !@failed_students.empty? %>
+		<li>
+			<%= "WARNING! The following students could not be found, click here to add them" %>
+		</li>
+	<% end %>
+	<li>
+		<% if !@students.empty? %>
+			<%= "The following students were added:" %>
+		<% else %>
+			<%= "No new students were added, this means that they have already been added to the system."
+		<% end %>
+	</li>
+	<li>
+		<% if !@enrolments.empty? %>
+			<%= "The following enrolments were added:" %>
+		<% end %>
+	</li>
+</ul>
