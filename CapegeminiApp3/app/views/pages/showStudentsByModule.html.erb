@@ -1,24 +1,62 @@
 <!--STUDENTS SHOWING BY MODULE -->
-
 <p id="notice"><%= notice %></p>
-<h3>Student currently on <u><%= @module.module_name%></u> course</h3>
-<table align="center">
-  <thead>
-    <tr>
-      <th>Surname</th>
-      <th>Firstname</th>
-    </tr>
-  </thead>
 
-  <tbody>
-  	 <% @enrolments.each do |entry| %>
-       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-        <td><%= entry.student.surname %></td>
-        <td><%= entry.student.firstname %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% if @userChoice == "module" %>
+      <% @module = Course.find(@menuSelection)
+          @enrolments = Enrolment.where(module_id: @menuSelection) %>
+      <h3>Student currently on <u><%= @module.module_name%></u> course</h3>
+      <% if !@enrolments.blank? %>
+            <table align="center">
+              <thead>
+                <tr>
+                  <th>Surname</th>
+                  <th>Firstname</th>
+                </tr>
+              </thead>
 
+              <tbody>
+              	 <% @enrolments.each do |entry| %>
+                   <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+                    <td><%= entry.student.surname %></td>
+                    <td><%= entry.student.firstname %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          
+      <% else %>
+            <p>No students have been enrolled on this course yet</p>
+      <% end %>
+<% end %>
+
+<% if @userChoice == "session" %>
+      <% @session = Session.find(@menuSelection)
+        @attends = Attend.where(session_id: @menuSelection) %>
+      <h4>Module: <%= @session.module_id%></h4>
+      <h4>Session: <%= @session.date%></h4>
+      <% if !@attends.blank? %>
+            <table align="center" >
+               <caption><h3>Students</h3></caption>
+              <thead>
+
+                <tr>
+                  <th>Surname</th>
+                  <th>Firstname</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                 <% @attends.each do |entry| %>
+                   <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+                    <td><%= entry.student.surname %></td>
+                    <td><%= entry.student.firstname %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+      <% else %>
+            <p>No students have attended this session </p>
+      <% end %>
+<% end %>
 <!--<= link_to 'Create Session', {:controller => 'sessions', :action => 'new'} %>
 <= link_to 'View Sessions', {:controller => 'pages', :action => 'sessions', :module => @moduleParam} %> -->

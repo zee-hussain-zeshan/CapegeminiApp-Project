@@ -1,39 +1,14 @@
 class PagesController < ApplicationController
 
 	def index
-		@module_id
-		begin
-			@module_id = params[:module][:id]
-		rescue
-			@module_id = Course.first[:id]
-		end
 		#sessions = Session.select(:id).where(module_id: @module_id)
 		#@attends = Attend.where(session_id: sessions)
+	end
 
+	def dataView
 		@attends = Attend.joins(:session).where("sessions.module_id" => @module_id)
-	end
 
-	def showStudentsByModule
-		@moduleParam
-		begin
-			@moduleParam = params[:module][:id]
-		rescue
-			@moduleParam = Course.first[:id]
-		end
-		@module = Course.find(@moduleParam)
-		@enrolments = Enrolment.where(module_id: @moduleParam)
-	end
-
-	def showSessionsByModule
-		@moduleParam
-		begin
-			@moduleParam = params[:module][:id]
-		rescue
-			@moduleParam = Course.first[:id]
-		end
-		@module = Course.find(@moduleParam)
-		@sessions = Session.where(module_id: @moduleParam)
-	end
+	end 
 
 	def attendance
 		@module_idParam
@@ -50,6 +25,27 @@ class PagesController < ApplicationController
 		@session = params[:session]
 	end
 
+	def chooseModule
+		@userChoice = params[:id]
+		@modules = Course.all
+	end 
+
+	def showStudentsByModule
+		@userChoice = params[:id]
+		@menuSelection = params[:collection][:id]
+		# @userSelection
+	end
+
+	def showSessionsByModule
+		@moduleParam
+		begin
+			@moduleParam = params[:module][:id]
+		rescue
+			@moduleParam = Course.first[:id]
+		end
+		@module = Course.find(@moduleParam)
+		@sessions = Session.where(module_id: @moduleParam)
+	end
 
 
 end
