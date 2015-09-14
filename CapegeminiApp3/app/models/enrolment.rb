@@ -4,6 +4,6 @@ class Enrolment < ActiveRecord::Base
 
 	validates :module_id, presence: true
 	validates :student_id, presence: true
-	validates :module_id, :uniqueness => { :scope => :student_id, :message => "has already been taken from this student" } 
+	validates :module_id, :uniqueness => { :scope => :student_id, :message => ": This student is already enrolled on this module." } 
 	
 end

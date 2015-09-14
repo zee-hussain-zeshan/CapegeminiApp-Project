@@ -7,41 +7,42 @@
 	enrolledStudents = Enrolment.where(module_id: t.module_id)
 %>
 
-<p></p>
 
 <h3><%= session.module_name %> | <%= t.date %></h3>
+<% if !enrolledStudents.blank? %>
+    <table align="center">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Present?</th>
+        </tr>
+      </thead>
 
-<table align="center">
-  <thead>
-    <tr>
-      <th>Student</th>
-      <th>Present?</th>
-    </tr>
-  </thead>
+      <tbody>
+       <% enrolledStudents.each do |entry| %>
+          <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+            <td><%= entry.student.surname%> <%= entry.student.firstname %></td>
+            <% 
+    	        present = "Not Present" 
+    		  	presentStudents.each do |search| 
+    		  	if entry.student_id == search.student_id 
+    		    	present = "Present" 
+    		  	end 
+    		   	end 
+    	   %>
+           <td><%= present %></td>
+           
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  <tbody>
-   <% enrolledStudents.each do |entry| %>
-      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-        <td><%= entry.student.surname%> <%= entry.student.firstname %></td>
-        <% 
-	        present = "Not Present" 
-		  	presentStudents.each do |search| 
-		  	if entry.student_id == search.student_id 
-		    	present = "Present" 
-		  	end 
-		   	end 
-	   %>
-       <td><%= present %></td>
-       
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br/>
-<%= button_to 'Manage Attendance', {:controller => 'pages', :action => 'attendance', :id => t.id} %>
-
-
+    <br/>
+    <%= button_to 'Update Attendance', {:controller => 'pages', :action => 'attendance', :id => t.id} %>
+<% else %>
+    <h4>No students have attended this session</h4>
+    <%= button_to 'Record Attendance', {:controller => 'pages', :action => 'attendance', :id => t.id} %>
+<% end %>
 
 
 

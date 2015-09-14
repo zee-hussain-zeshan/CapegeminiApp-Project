@@ -14,7 +14,7 @@ f = File.open(@file_path)
 @course = Course.where(:module_id => @course_id).first
 if @course.blank?
 	Course.create(:module_id => @course_id, :module_name => @course_id)
-	%><%= "A module with module code #{@course_id} and name #{course_id} was created, you can change this name later if you wish"  %><%
+	%><%= "A module with module code" + @course_id + "and name" + course_id + " was created, you can change this name later if you wish"  %><%
 else
 	%><%= "The following changes were made to #{@course.module_name} with id #{@course_id}:" %><%
 end
@@ -56,7 +56,7 @@ end
 		<% if !@students.empty? %>
 			<%= "The following students were added:" %>
 		<% else %>
-			<%= "No new students were added, this means that they have already been added to the system."
+			<%= "No new students were added, this means that they have already been added to the system."%>
 		<% end %>
 	</li>
 	<li>

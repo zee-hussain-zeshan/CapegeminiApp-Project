@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :assessments
   resources :sessions
   resources :attends
+  get 'attends/index'
   get 'pages/index'
   get 'pages/chooseModule'
   get 'pages/chooseSession'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   get 'pages/showSessionsByModule'
   get 'pages/attendance'
   get 'pages/session'
+  get 'pages/dataView'
 
   post 'pages/chooseModule' =>'pages#chooseModule'
   post 'pages/showStudentsByModule' =>'pages#showStudentsByModule'
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
   
   post 'pages/attends_processing' =>'pages#attends_processing'
   post 'pages/attendance' =>'pages#attendance'
-   post 'pages/index' =>'pages#index'
+  post 'pages/index' =>'pages#index'
   
   get 'enrolmentcsvs/enrolments_upload' => 'enrolmentcsvs#enrolments_upload'
   post 'import' => 'enrolmentcsvs#import'
