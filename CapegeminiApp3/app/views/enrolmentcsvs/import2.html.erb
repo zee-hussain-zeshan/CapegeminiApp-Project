@@ -34,8 +34,8 @@ CSV.foreach(f.path, headers: true) do |row|
 	if Student.where(:student_id => student.student_id).blank?
 		@students.push(student)
 		student.save
-	else
-		@failed_students.push(student)
+	#else
+	#	@failed_students.push(student)
 	end
 
 
@@ -50,13 +50,18 @@ end
 	<% if !@failed_students.empty? %>
 		<li>
 			<%= "WARNING! The following students could not be found, click here to add them" %>
+			<table>
+				<tr><td>Surname</td><td>Firstname</td></tr>
+			<% @failed_students.each do |student| %>
+				<%= student.surname %><%= student.firstname %>
+			<% end %>
 		</li>
 	<% end %>
 	<li>
 		<% if !@students.empty? %>
 			<%= "The following students were added:" %>
 		<% else %>
-			<%= "No new students were added, this means that they have already been added to the system."%>
+			<%= "No new students were added, this means that they have already been added to the system." %>
 		<% end %>
 	</li>
 	<li>
