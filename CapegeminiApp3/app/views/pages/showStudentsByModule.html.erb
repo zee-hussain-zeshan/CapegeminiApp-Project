@@ -2,6 +2,7 @@
 <p id="notice"><%= notice %></p>
 
 <% if @userChoice == "module" %>
+      <% @menuSelection = params[:collection][:id] %>
       <% @module = Course.find(@menuSelection)
           @enrolments = Enrolment.where(module_id: @menuSelection) %>
       <h3>Student currently on <u><%= @module.module_name%></u> course</h3>
@@ -30,6 +31,7 @@
 <% end %>
 
 <% if @userChoice == "session" %>
+     <% @menuSelection = params[:collection][:id] %>
       <% @session = Session.find(@menuSelection)
         @attends = Attend.where(session_id: @menuSelection) %>
       <h4>Module: <%= @session.module_id%></h4>
@@ -58,5 +60,84 @@
             <p>No students have attended this session </p>
       <% end %>
 <% end %>
+
+<%= @session_chosen %>
+
+<% if @userChoice == "attendance" %>
+      <% @session_chosen = params[:session_chosen] %>
+      <% if @session_chosen == "false" || @session_chosen.blank? %>
+          <% @menuSelection = params[:collection][:id] %>
+          <h3><%= @menuSelection %></h3>
+          <% @sessions = Session.where(:module_id => @menuSelection) %>
+          <p>Click on the date to manage attendance or select a specific session below</p>
+          
+          <%= form_tag('#') do %>
+          <table align="center">
+            <tr>
+              <th>Session Date</th>
+            </tr>
+             <tr>
+            <td><%= collection_select :collection, :id, @sessions, :id,:date %></td>
+           </tr>
+           </table>
+           <%= hidden_field_tag :session_chosen, "true" %>
+           <%= hidden_field_tag :id, "attendance" %>
+          <%= submit_tag "Manage session"%>
+        <% end %>
+        <br/>
+
+         
+          <table align="center">
+            <thead>
+              <tr>
+                <th>Session Date</th>
+                <th>Module Code</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @sessions.each do |session| %>
+                <tr>
+                  <td><%= link_to session.date, {:controller => 'pages', :action => 'session', :id => session.id} %></td>
+                  <td><%= session.module_id %></td>
+                  <td><%= link_to 'Show', session %></td>
+                  <td><%= link_to 'Edit', edit_session_path(session) %></td>
+                  <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+       
+        <% elsif @session_chosen == "true" %>
+              <% @session_chosen = "false" %>
+              <% @session = Session.find(params[:collection][:id]) %>
+              <h3>Click on the date to manage the session</h3>
+            <table align="center">
+            <thead>
+              <tr>
+                <th>Session Date</th>
+                <th>Module Code</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                  <td><%= link_to @session.date, {:controller => 'pages', :action => 'session', :id => @session} %></td>
+                  <td><%= @session.module_id %></td>
+                  <td><%= link_to 'Show', @session %></td>
+                  <td><%= link_to 'Edit', edit_session_path(@session) %></td>
+                  <td><%= link_to 'Destroy', @session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            </tbody>
+          </table>
+              
+               
+
+        <% end %>
+
+<% end %>
+
 <!--<= link_to 'Create Session', {:controller => 'sessions', :action => 'new'} %>
 <= link_to 'View Sessions', {:controller => 'pages', :action => 'sessions', :module => @moduleParam} %> -->

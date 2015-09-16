@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   post 'pages/chooseSession' =>'pages#chooseSession'
   post 'pages/showSessionsByModule' =>'pages#showSessionsByModule'
+
+  post 'pages/session' =>'pages#session'
   
   post 'pages/attends_processing' =>'pages#attends_processing'
   post 'pages/attendance' =>'pages#attendance'

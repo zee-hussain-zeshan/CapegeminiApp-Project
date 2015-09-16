@@ -1,6 +1,7 @@
 	<p id="notice"><%= notice %></p>
-
+<%= params[:id] %>
 <% 
+  
 	t = Session.find(params[:id])
 	session = Course.find(t.module_id) 
 	presentStudents = Attend.where(session_id: params[:id])

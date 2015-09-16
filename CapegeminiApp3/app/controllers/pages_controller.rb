@@ -32,7 +32,6 @@ class PagesController < ApplicationController
 
 	def showStudentsByModule
 		@userChoice = params[:id]
-		@menuSelection = params[:collection][:id]
 		# @userSelection
 	end
 

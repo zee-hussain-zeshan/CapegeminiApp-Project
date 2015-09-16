@@ -1,21 +1,16 @@
-<h1>Welcome to the Capegemini Web Learning System</h1>
+<h1>Welcome to the Capgemini Web Learning System</h1>
 
 
 
 
 <h3>Students on each module</h3>
 <% @students = Enrolment.all %>
-<%= column_chart @students.group('enrolments.module_id').count, library: {backgroundColor: "#FFF", width: '50%'} %>Module_ID
+<%= column_chart @students.group('enrolments.module_id').count, library: {backgroundColor: "#FFF", width: '50%'} %>Module Code
 
-<h3>Sessions attended by each student grouped by Student_Id</h3>
+<h3>Numebr of students attending different sessions</h3>
 
 
 <%= column_chart Session.joins(:attends).group('date').count %>
-Student_ID
-
-
-<h3>Students attending sessions</h3>
-<% @sessions = Session.all %>
-<%= column_chart @sessions.group(:module_id).count, library: {backgroundColor: "#FFF", width: '50%'} %>Module_ID
+Session Date
 
 
