@@ -1,3 +1,4 @@
+<div align="center">
 <%= form_for(@enrolment) do |f| %>
   <% if @enrolment.errors.any? %>
     <div id="error_explanation">
@@ -17,9 +18,10 @@
   </div>
   <div class="field">
     <%= f.label :student_id %><br>
-   <%= f.collection_select :student_id, Student.order(:student_id), :id, :student_id %>
+   <%= f.collection_select :student_id, Student.order(:student_id), :id, :surname %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+</div>

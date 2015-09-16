@@ -19,44 +19,59 @@
   
 </head>
 <body>
-
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Web Learning System</a>
+      <%= link_to 'WEB LEARNING SYSTEM', {:controller => 'pages', :action => 'index'}, :class => "navbar-brand"%>
     </div>
     <div>
       <ul class="nav navbar-nav">
-        <li class="active"><%= link_to 'Home', {:controller => 'pages', :action => 'index'} %></li>
-         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Uploads via CSV<span class="caret"></span></a>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Students<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to 'Enrolments', {:controller => 'enrolmentcsvs', :action => 'enrolments_upload'} %></li>
-            <li><%= link_to 'Attendance', {:controller => 'attendscsvs', :action => 'attends_upload'} %> </li>
-            <li><a href="#"></a></li>
+            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseModule', id: "module"} %></li>
+            <li><%= link_to 'View by Session', {:controller => 'pages', :action => 'chooseModule', id:"session"} %> </li>
+            <li><%= link_to 'View all Students', {:controller => 'students', :action => 'index'} %> </li>
+            <li><%= link_to 'Create a new Student', {:controller => 'students', :action => 'new'} %> </li>            
           </ul>
         </li>
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Students<span class="caret"></span></a>
+
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Enrolments<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseModule'} %></li>
-            <li><%= link_to 'List all', {:controller => 'students', :action => 'index'} %> </li>
-            <li><a href="#"></a></li>
+            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseModule', id: "module"} %></li>
+            <li><%= link_to 'Enrol a Student', {:controller => 'enrolments', :action => 'new'} %> </li>     
+            <li><%= link_to 'Upload via CSV', {:controller => 'enrolmentcsvs', :action => 'enrolments_upload'} %> </li>     
           </ul>
         </li>
-         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Sessions<span class="caret"></span></a>
+
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Modules<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to 'View by module', {:controller => 'pages', :action => 'chooseSession'} %></li>
-            <li><%= link_to 'List all', {:controller => 'sessions', :action => 'index'} %> </li>
-            <li><a href="#"></a></li>
+            <li><%= link_to 'List all Modules', {:controller => 'courses', :action => 'index'} %></li>
+            <li><%= link_to 'Create a new Module', {:controller => 'courses', :action => 'new'} %> </li>     
           </ul>
         </li>
+         
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sessions<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'List all Sessions', {:controller => 'sessions', :action => 'index'} %></li>
+            <li><%= link_to 'Create a new Session', {:controller => 'sessions', :action => 'new'} %> </li>     
+          </ul>
+        </li>
+
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span style="font-size: 14px; color: yellow">Manage Attendance</span><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Record Attendance', {:controller => 'pages', :action => 'chooseModule', id: "attendance"} %></li>
+            <li><%= link_to 'View Attendance', {:controller => 'pages', :action => 'chooseModule', id: "attendance"} %> </li> 
+            <li><%= link_to 'Upload via CSV', {:controller => 'attendscsvs', :action => 'attends_upload', id: "attendance"} %> </li>     
+          </ul>
+        </li>
+
+
       </ul>
     </div>
   </div>
 </nav>
-  
-<div class="container">
-  
-</div>
+  <div class="logo">
+  <%= image_tag("logo.jpg")%></div>
 
 	<main>
 		<%= yield %>
