@@ -4,7 +4,10 @@ require 'CSV'
 f = @f
 fName = File.basename(f.original_filename,".csv")
 
+
+student_count = 0
 failed_students = []
+
 
 row_hash = ""
 
@@ -20,6 +23,7 @@ else
 		if Session.where(module_id: session.module_id, date: session.date).empty?
 			session.save
 		end
+
 	end
 	
 	CSV.foreach(f.path, headers: true) do |row|
@@ -34,22 +38,21 @@ else
 
 		if Student.where(:student_id => student.student_id).blank?
 			failed_students.push(student)
-		end
+		else
+			student_count += 1
+			headers.each do |date|
 
+				session = Session.select(:id).where(:date => Date.parse(date), :module_id => fName).first
 
-
-		headers.each do |date|
-
-			session = Session.select(:id).where(:date => Date.parse(date), :module_id => fName).first
-
-			if row_hash[date] == "1"
-				if Attend.where(student_id: student.student_id, session_id: session.id).empty?
-					
-					attend = Attend.create(student_id: student.student_id, session_id: session.id)
-	
+				if row_hash[date] == "1"
+					if Attend.where(student_id: student.student_id, session_id: session.id).empty?
+						
+						attend = Attend.create(student_id: student.student_id, session_id: session.id)
+		
+					end
+				else
+					Attend.where(student_id: student.student_id, session_id: session.id).destroy_all
 				end
-			else
-				Attend.where(student_id: student.student_id, session_id: session.id).destroy_all
 			end
 		end
 	end
@@ -59,7 +62,22 @@ end
 
 <%= "Attendance added" %>
 
-<% 
+<%
+date_string = headers.shift
+date_end = ""
+if headers.length > 0
+	date_end = " and " + headers.pop
+end
+headers.each do |date|
+	date_string += ", " + date
+end
+date_string += date_end
+%>
+<p> 
+<%= student_count %> students were recorded for module <%= fName %> on <%= date_string %>
+</p>
+
+<%
 
 if !failed_students.blank?
 	%>
