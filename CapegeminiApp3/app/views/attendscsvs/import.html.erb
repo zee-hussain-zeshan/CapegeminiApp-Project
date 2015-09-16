@@ -33,7 +33,7 @@ else
 
 
 		if Student.where(:student_id => student.student_id).blank?
-			failed_students.push("#{student.surname}, #{student.firstname}")
+			failed_students.push(student)
 		end
 
 
@@ -63,11 +63,11 @@ end
 
 if !failed_students.blank?
 	%>
-	<p> The following students could not be added: </p>
+	<p> The following students could not be found, please ensure their Student Codes were entered correctly: </p>
 	<table>
 	<%
 	failed_students.each do |student| %>
-		<tr><td><%= student %></td></tr>
+		<tr><td><%= student.firstname %></td><td><%= student.surname %></td></tr>
 	<% end %>
 	</table><%
 end
